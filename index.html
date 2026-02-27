@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Little World Simulator Mobile</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    h1, h2, h3 { font-family: 'Roboto', sans-serif; }
+    .hero-bg { 
+        background: linear-gradient(135deg, #4ade80, #3b82f6); 
+        background-size: cover; 
+        background-position: center; 
+    }
+    .cta-btn:hover {
+        transform: scale(1.05);
+        transition: all 0.3s ease-in-out;
+    }
+    .feature-card:hover {
+        transform: translateY(-5px);
+        transition: all 0.3s ease-in-out;
+    }
+    .carousel-item {
+        min-width: 33.3333%;
+        display: flex;
+        justify-content: center;
+        padding: 20px;
+        flex-shrink: 0;
+    }
+    .circle {
+        width: 260px;
+        height: 260px;
+        background: white;
+        border-radius: 50%;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 25px;
+    }
+</style>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const track = document.getElementById("carouselTrack");
+        let slides = Array.from(track.children);
+
+        const visibleSlides = 3;
+        const totalSlides = slides.length;
+
+        // Clonamos los últimos 3 al inicio
+        for (let i = totalSlides - visibleSlides; i < totalSlides; i++) {
+            const clone = slides[i].cloneNode(true);
+            track.insertBefore(clone, track.firstChild);
+        }
+
+        // Clonamos los primeros 3 al final
+        for (let i = 0; i < visibleSlides; i++) {
+            const clone = slides[i].cloneNode(true);
+            track.appendChild(clone);
+        }
+
+        slides = Array.from(track.children);
+
+        let index = visibleSlides;
+        const slideWidth = slides[0].offsetWidth;
+
+        track.style.transform = `translateX(-${slideWidth * index}px)`;
+
+        function moveToSlide() {
+            track.style.transition = "transform 0.5s ease";
+            track.style.transform = `translateX(-${slideWidth * index}px)`;
+        }
+
+        document.getElementById("nextBtn").addEventListener("click", () => {
+            index++;
+            moveToSlide();
+        });
+
+        document.getElementById("prevBtn").addEventListener("click", () => {
+            index--;
+            moveToSlide();
+        });
+
+        track.addEventListener("transitionend", () => {
+
+            if (index >= totalSlides + visibleSlides) {
+                track.style.transition = "none";
+                index = visibleSlides;
+                track.style.transform = `translateX(-${slideWidth * index}px)`;
+            }
+
+            if (index <= 0) {
+                track.style.transition = "none";
+                index = totalSlides;
+                track.style.transform = `translateX(-${slideWidth * index}px)`;
+            }
+
+        });
+
+        // SWIPE
+        let startX = 0;
+
+        track.addEventListener("touchstart", e => {
+            startX = e.touches[0].clientX;
+        });
+
+        track.addEventListener("touchend", e => {
+            let diff = e.changedTouches[0].clientX - startX;
+            if (diff > 50) index--;
+            if (diff < -50) index++;
+            moveToSlide();
+        });
+
+    });
+</script>
+</head>
+<body class="bg-gray-50">
+
+<!-- HERO -->
+<section class="hero-bg h-screen flex items-center justify-center text-center text-white relative" style="background-image: url('URL_IMAGE/webimage1.jpg');">
+    <div class="bg-black bg-opacity-70 p-10 rounded-xl mx-4">
+        <h1 class="text-4xl md:text-6xl font-bold mb-4">Little World Simulator Mobile</h1>
+        <p class="text-lg md:text-2xl mb-6">Transforma la manera en que tus hijos aprenden y exploran, de forma natural y sin depender de pantallas.</p>
+        <a href="#contact" class="cta-btn inline-block bg-green-500 hover:bg-green-600 text-black font-semibold px-6 py-3 rounded-full shadow-lg">Comienza ahora</a>
+    </div>
+</section>
+
+<section class="py-20 px-6 md:px-20 bg-gradient-to-r from-purple-500 to-pink-500 text-white">
+  <div class="max-w-6xl mx-auto text-center">
+    <!-- Título sección -->
+    <h2 class="text-3xl md:text-4xl font-bold mb-12">¿Por qué LittleWorldSimulator Mobile?</h2>
+    
+    <!-- Tres columnas de beneficios -->
+    <div class="grid md:grid-cols-3 gap-10 mb-16">
+      <div class="bg-black bg-opacity-50 rounded-lg p-6">
+        <h3 class="text-xl font-semibold mb-4">0 Pantallas Reales</h3>
+        <p>Garantizamos que los niños interactúen con experiencias reales, fomentando la creatividad y reduciendo la dependencia tecnológica.</p>
+      </div>
+      <div class="bg-black bg-opacity-50 rounded-lg p-6">
+        <h3 class="text-xl font-semibold mb-4">Interacción Padres-Hijos</h3>
+        <p>Los padres participan activamente en el aprendizaje, fortaleciendo la conexión familiar sin sobrecarga.</p>
+      </div>
+      <div class="bg-black bg-opacity-50 rounded-lg p-6">
+        <h3 class="text-xl font-semibold mb-4">Flexible y Escalable</h3>
+        <p>Se adapta a diferentes edades y rutinas, permitiendo que los niños exploren de forma segura según su madurez.</p>
+      </div>
+    </div>
+
+    <!-- Sección de problema y solución -->
+    <div class="bg-white text-gray-800 rounded-xl p-10 shadow-lg">
+      <h3 class="text-2xl md:text-3xl font-bold mb-6">Aprender y crecer juntos, sin estrés</h3>
+      <p class="text-lg mb-4">
+        Muchos padres primerizos sienten que deben estar constantemente estimulando a sus hijos para que aprendan, lo que genera agotamiento y ansiedad. A menudo los niños se ven expuestos a pantallas desde edades tempranas, y esto dificulta el desarrollo de habilidades naturales y la curiosidad innata.
+      </p>
+      <p class="text-lg">
+        Little World Simulator Mobile propone una experiencia de aprendizaje natural, divertida y segura, donde los niños exploran el mundo real mientras desarrollan habilidades cognitivas y sociales, y los padres recuperan tranquilidad y confianza.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- About Section -->
+<section class="py-20 bg-gray-100">
+    <div class="max-w-5xl mx-auto px-4 text-center">
+      <h2 class="text-3xl md:text-4xl font-bold mb-6">Cómo Funciona</h2>
+      <p class="mb-12">MóvilPlayLab ofrece una experiencia interactiva que combina simulaciones digitales con actividades offline, preparando a tu hijo para un uso responsable de la tecnología.</p>
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition">
+          <img src="URL_IMAGE/webimage2.jpg" alt="Simulación segura" class="mb-4 rounded">
+          <h3 class="text-xl font-semibold mb-2">Simulación Guiada</h3>
+          <p>Escenarios controlados donde el niño aprende a manejar situaciones digitales antes de usar un móvil real.</p>
+        </div>
+        <div class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition">
+          <img src="URL_IMAGE/webimage3.jpg" alt="Misiones offline" class="mb-4 rounded">
+          <h3 class="text-xl font-semibold mb-2">Misiones Offline</h3>
+          <p>Actividades y juegos fuera de la pantalla que refuerzan la comprensión y el comportamiento responsable.</p>
+        </div>
+        <div class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition">
+          <img src="URL_IMAGE/webimage4.jpg" alt="Progreso" class="mb-4 rounded">
+          <h3 class="text-xl font-semibold mb-2">Progreso y Métricas</h3>
+          <p>Los padres reciben reportes claros de los avances de sus hijos y sugerencias para acompañarlos en cada etapa.</p>
+        </div>
+      </div>
+    </div>
+</section>
+
+<!-- NUEVA SECCIÓN 1: TESTIMONIOS / BENEFICIOS -->
+<section class="py-20 px-6 md:px-20 bg-white">
+    <h2 class="text-3xl font-bold text-center text-gray-800 mb-10">Beneficios para padres e hijos</h2>
+    <div class="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+        <div class="feature-card bg-yellow-50 p-6 rounded-xl shadow-md">
+            <h3 class="font-semibold mb-2">Tranquilidad para los padres</h3>
+            <p>Recupera tu tiempo y energía mientras tu hijo aprende y explora de manera natural, sin depender de tablets o teléfonos.</p>
+        </div>
+        <div class="feature-card bg-green-50 p-6 rounded-xl shadow-md">
+            <h3 class="font-semibold mb-2">Desarrollo integral del niño</h3>
+            <p>Fomenta curiosidad, autonomía y habilidades cognitivas y sociales mediante experiencias reales y creativas.</p>
+        </div>
+        <div class="feature-card bg-blue-50 p-6 rounded-xl shadow-md">
+            <h3 class="font-semibold mb-2">Educación sin sobrecarga digital</h3>
+            <p>Evita la exposición temprana a pantallas, promoviendo hábitos saludables y aprendizaje significativo.</p>
+        </div>
+        <div class="feature-card bg-purple-50 p-6 rounded-xl shadow-md">
+            <h3 class="font-semibold mb-2">Conexión familiar</h3>
+            <p>Disfruta de tiempo de calidad con tu hijo, integrando el aprendizaje en la vida diaria de manera sencilla y divertida.</p>
+        </div>
+    </div>
+</section>
+
+<!-- SECCIÓN TESTIMONIOS - CARRUSEL CIRCULAR MANUAL -->
+<section class="bg-blue-50 py-20 px-6 md:px-20 overflow-hidden">
+    <div class="max-w-5xl mx-auto text-center mb-12">
+        <h2 class="text-3xl font-bold mb-4">Lo que dicen los padres</h2>
+        <p class="text-gray-600 text-lg">
+            Experiencias reales de papás y mamás primerizos que han probado Little World Simulator Mobile.
+        </p>
+    </div>
+    <div class="relative max-w-6xl mx-auto">
+        <!-- Botón izquierda -->
+        <button id="prevBtn" class="absolute -left-6 top-1/2 -translate-y-1/2 z-20 bg-white shadow-md w-12 h-12 rounded-full flex items-center justify-center">
+            ‹
+        </button>
+        <div class="overflow-hidden">
+            <div id="carouselTrack" class="flex transition-transform duration-500 ease-in-out">
+                <!-- 9 ITEMS -->
+                <!-- Cada item ocupa 33.333% -->
+                <!-- 1 -->
+                <div class="carousel-item">
+                    <div class="circle">
+                        <p>"Mi hijo explora y aprende jugando mientras organizo la casa."</p>
+                        <span>– Laura, Madrid</span>
+                    </div>
+                </div>
+                <!-- 2 -->
+                <div class="carousel-item">
+                    <div class="circle">
+                        <p>"Una app que combina diversión y educación sin pantallas agresivas."</p>
+                        <span>– Daniel, Barcelona</span>
+                    </div>
+                </div>
+                <!-- 3 -->
+                <div class="carousel-item">
+                    <div class="circle">
+                        <p>"Mi hija aprende habilidades básicas mientras se divierte."</p>
+                        <span>– Marta, Valencia</span>
+                    </div>
+                </div>
+                <!-- 4 -->
+                <div class="carousel-item">
+                    <div class="circle">
+                        <p>"Tranquila, intuitiva y segura. Perfecta para nosotros."</p>
+                        <span>– Andrés, Sevilla</span>
+                    </div>
+                </div>
+                <!-- 5 -->
+                <div class="carousel-item">
+                    <div class="circle">
+                        <p>"Aprende números y colores sin darse cuenta."</p>
+                        <span>– Paula, Bilbao</span>
+                    </div>
+                </div>
+                <!-- 6 -->
+                <div class="carousel-item">
+                    <div class="circle">
+                        <p>"Fomenta la creatividad y no el entretenimiento pasivo."</p>
+                        <span>– Sergio, Málaga</span>
+                    </div>
+                </div>
+                <!-- 7 -->
+                <div class="carousel-item">
+                    <div class="circle">
+                        <p>"Pensada para niños pequeños. Clara y educativa."</p>
+                        <span>– Cristina, Zaragoza</span>
+                    </div>
+                </div>
+                <!-- 8 -->
+                <div class="carousel-item">
+                    <div class="circle">
+                        <p>"La prefiere antes que otros juegos."</p>
+                        <span>– Álvaro, Granada</span>
+                    </div>
+                </div>
+                <!-- 9 -->
+                <div class="carousel-item">
+                    <div class="circle">
+                        <p>"Educativa y me da tranquilidad como madre."</p>
+                        <span>– Isabel, Alicante</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!-- Botón derecha -->
+        <button id="nextBtn" class="absolute -right-6 top-1/2 -translate-y-1/2 z-20 bg-white shadow-md w-12 h-12 rounded-full flex items-center justify-center">
+            ›
+        </button>
+    </div>
+</section>
+
+<!-- SECCIÓN CTA FINAL -->
+<section class="py-20 bg-green-500 text-white text-center px-6 md:px-20">
+    <h2 class="text-3xl md:text-4xl font-bold mb-6">Empieza hoy con LittleWorldSimulator Mobile</h2>
+    <p class="mb-8">Regístrate y prueba nuestra experiencia segura y divertida para tus hijos.</p>
+    <div class="flex flex-col sm:flex-row justify-center gap-4">
+      <a href="#" class="btn-primary">Descargar Android</a>
+      <a href="#" class="btn-primary">Descargar iOS</a>
+      <a href="#" class="btn-green">¡Quiero probarlo!</a>
+    </div>
+</section>
+
+<!-- NUEVA SECCIÓN 2: LLAMADO A LA ACCIÓN / FORMULARIO -->
+<section id="contact" class="py-20 px-6 md:px-20 bg-gradient-to-r from-purple-50 bg-white">
+    <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Comienza hoy mismo</h2>
+    <p class="text-center max-w-2xl mx-auto text-gray-700 mb-6">Únete a la experiencia de Little World Simulator Mobile y descubre cómo tu hijo puede aprender de manera natural mientras tú disfrutas sin estrés.</p>
+    
+    <form class="max-w-3xl mx-auto bg-white p-8 rounded-xl shadow-lg space-y-4" action="mailto:emaildecontacto@mail.com" method="POST">
+        <input type="text" name="name" placeholder="Tu nombre" required class="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+        <input type="email" name="email" placeholder="Tu email" required class="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+        <textarea name="message" placeholder="Tu mensaje" rows="5" required class="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"></textarea>
+        <button type="submit" class="cta-btn w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded-full shadow-lg">Enviar mensaje</button>
+    </form>
+</section>
+
+<!-- FOOTER -->
+<footer class="py-8 bg-gray-800 text-white text-center">
+    <p>© 2026 Little World Simulator Mobile. Todos los derechos reservados.</p>
+</footer>
+
+</body>
+</html>
